@@ -47,7 +47,7 @@ export class PlayCommand extends BaseCommand {
             return handleVideos(this.client, ctx, toQueue, voiceChannel);
         }
 
-        const query =
+        let query =
             (ctx.args.join(" ") || ctx.options?.getString("query")) ??
             (ctx.additionalArgs.get("values")
                 ? (ctx.additionalArgs.get("values") as (string | undefined)[])[0]
@@ -81,6 +81,10 @@ export class PlayCommand extends BaseCommand {
                     )
                 ]
             });
+        }
+
+        if (query.startsWith("<") && query.endsWith(">")) {
+            query = query.slice(1, -1);
         }
 
         const queryCheck = checkQuery(query);
